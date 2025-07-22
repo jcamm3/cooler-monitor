@@ -9,6 +9,7 @@ Monitors temperature and humidity in a refrigerated environment using ESP32-C3 a
 - SNTP time sync (PCF8563 RTC support)
 - Built-in web interface for live readings
 - Compact and power-efficient ESP32-C3 platform
+- Turns AC and external fans on/off based on temperature
 
 ## Hardware
 
@@ -16,6 +17,7 @@ Monitors temperature and humidity in a refrigerated environment using ESP32-C3 a
 - SHT30 sensor (I2C)
 - SSD1306 OLED (128x64, I2C)
 - PCF8563 RTC (I2C, optional)
+- 2-Channel 5V Relay Board
 
 ## Wiring
 
@@ -27,6 +29,8 @@ Monitors temperature and humidity in a refrigerated environment using ESP32-C3 a
 | OLED SCL      | GPIO2        |
 | RTC SDA       | GPIO3        |
 | RTC SCL       | GPIO2        |
+| RELAY 1       | GPIO4        |
+| RELAY 2       | GPIO5        |
 
 ## Getting Started
 
