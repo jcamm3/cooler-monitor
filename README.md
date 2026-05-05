@@ -14,7 +14,7 @@ Controls temperature in a cold storage room using a heater and external fans. Mo
 ## Hardware
 
 - Seeed Studio XIAO ESP32-C3
-- SHT30 sensor (I2C)
+- Dallas Temperature Sensors (OneWire)
 - SSD1306 OLED (128x64, I2C)
 - PCF8563 RTC (I2C, optional)
 - 2-Channel 5V Relay Board
