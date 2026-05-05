@@ -1,10 +1,10 @@
 # Cooler Monitor
 
-Monitors temperature and humidity in a refrigerated environment using ESP32-C3 and SHT30 sensor. Displays real-time data on an OLED screen, synchronizes time using SNTP, and serves a built-in web interface for remote access.
+Controls temperature in a cold storage room using a heater and external fans. Monitors Dallas 1-Wire temperature sensors and includes OLED display with real-time status. Features runtime-settable target, margin, and hysteresis. Visual status indication via onboard RGB LED (green/blue/red flashing).
 
 ## Features
 
-- SHT30 digital temperature & humidity sensor
+- 3x Dallas digital temperature sensors
 - SSD1306 OLED display for local readout
 - SNTP time sync (PCF8563 RTC support)
 - Built-in web interface for live readings
