@@ -23,8 +23,6 @@ Controls temperature in a cold storage room using a heater and external fans. Mo
 
 | Component     | ESP32-C3 Pin |
 |---------------|--------------|
-| SHT30 SDA     | GPIO3        |
-| SHT30 SCL     | GPIO2        |
 | OLED SDA      | GPIO3        |
 | OLED SCL      | GPIO2        |
 | RTC SDA       | GPIO3        |
