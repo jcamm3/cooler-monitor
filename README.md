@@ -1,6 +1,6 @@
 # Cooler Monitor
 
-Controls temperature in a cold storage room using a heater and external fans. Monitors Dallas 1-Wire temperature sensors and includes OLED display with real-time status. Features runtime-settable target, margin, and hysteresis. Visual status indication via onboard RGB LED (green/blue/red flashing).
+Controls temperature in a cold storage room using a heater and external fans. Monitors temperatures (AC Fins, External, Internal) and includes OLED display with real-time status. Features runtime-settable target, margin, and hysteresis. Visual status indication via onboard RGB LED (green/blue/red flashing).
 
 ## Features
 
