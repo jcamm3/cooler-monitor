@@ -1,9 +1,9 @@
 #**************************************************************
 #  Project:           Cooler Monitor
 #  Device/Board:      ESP32-C3 (ESP32-C3-DevKitM-1)
-#  Version:           1.2.0
+#  Version:           1.2.1
 #  Author:            John Camm
-#  Last Updated:      2025-06-18
+#  Last Updated:      2025-06-28
 #**************************************************************
 #  DESCRIPTION
 #    Controls temperature in a cold storage room using a heater
@@ -42,6 +42,14 @@
 #
 #**************************************************************
 #  CHANGELOG
+#  v1.2.1 (2025-06-28)
+#    - Fix: freeze_recovery_script now correctly triggered from main loop.
+#    - Fix: Heater activation conditions now check fan_state to prevent
+#           simultaneous ac_state/fan_state flag conflict.
+#    - Fix: "Currently Running" text sensor now includes Manual Deadband state.
+#    - Fix: show_test_card set to false for production.
+#    - Fix: Corrected log message "15s interval" -> "5s interval".
+#
 #  v1.1.2 (2025-06-27)
 #    - Manual Deadband now forcibly disables heater and fans.
 #
@@ -646,7 +654,9 @@ text_sensor:
     id: currently_running
     icon: "mdi:earth"
     lambda: |-
-      if (id(ac_state)) {
+      if (id(manual_deadband_state)) {
+        return {"Manual Deadband"};
+      } else if (id(ac_state)) {
         return {"AC"};
       } else if (id(fan_state)) {
         return {"Fans"};
@@ -775,7 +785,7 @@ display:
     i2c_id: bus_a
     id: oled_display
     auto_clear_enabled: True
-    show_test_card: true
+    show_test_card: false
     pages:
       - id: page1 
         lambda: |-
@@ -895,6 +905,12 @@ interval:
               id(ext_fans).turn_off();
               id(fan_state) = 0;
             } else {
+              // Trigger freeze recovery if fins are frozen and recovery not already running
+              if (freezing && !recovery) {
+                ESP_LOGW("logic", "Fins frozen — triggering freeze recovery script.");
+                id(freeze_recovery_script).execute();
+              }
+
               if (ext_cooling && above_upper && !recovery) {
                 if (ac) {
                   ESP_LOGD("logic", "FANS are on; turning off heater.");
@@ -909,12 +925,12 @@ interval:
                 id(fan_state) = 0;
               }
 
-              if (deadband && !freezing && room >= upper && !recovery) {
+              if (deadband && !freezing && room >= upper && !recovery && !fan) {
                 ESP_LOGW("logic", "Room above upper threshold; turning on heater (AC running). Deadband cleared.");
                 id(heater).turn_on();
                 id(ac_state) = 1;
                 id(deadband_state) = 0;
-              } else if (!freezing && !deadband && above_target && !recovery) {
+              } else if (!freezing && !deadband && above_target && !recovery && !fan) {
                 ESP_LOGW("logic", "Room above target; keeping heater on (AC running).");
                 id(heater).turn_on();
                 id(ac_state) = 1;
@@ -938,5 +954,5 @@ interval:
             id(ext_fans).turn_off();
             id(fan_state) = 0;
           }
-      - logger.log: "15s interval logic executed"  # optional, helpful for debugging
+      - logger.log: "5s interval logic executed"  # optional, helpful for debugging
 
