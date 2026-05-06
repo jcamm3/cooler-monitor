@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.2.1] - 2025-06-28
+
+### Fixed
+- Freeze Recovery script was never triggered — added `freeze_recovery_script.execute()` call to the main 5s control loop when fins ≤ 32 °F and recovery is not already active.
+- Heater activation conditions now check `fan_state` to prevent `ac_state` and `fan_state` flags both being set to true in the same evaluation tick (relay interlock prevented physical conflict, but state flags were inconsistent).
+- `Currently Running` text sensor now correctly surfaces `Manual Deadband` as the highest-priority status, matching OLED page 2 behavior.
+- `show_test_card` set to `false` — removes the test pattern flash on every reboot.
+- Corrected stale log message from `"15s interval logic executed"` to `"5s interval logic executed"`.
+
+---
+
 ## [1.2.0] - 2025-06-18
 
 ### Changed

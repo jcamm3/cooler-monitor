@@ -69,11 +69,11 @@ The main interval (5 s) evaluates these conditions in order:
 
 1. **Power off** → all relays off, all state flags cleared.
 2. **Manual Deadband active** → heater and fans forced off regardless of temperature.
-3. **External cooling available** (`outside ≤ room − 20 °F`) and room above upper threshold → fans on, heater off.
-4. **Deadband active** and room ≥ upper threshold → exit deadband, turn heater on.
-5. **Room above target** (no deadband, no freeze recovery) → heater on.
-6. **Room at or below lower threshold** → heater off, enter deadband.
-7. **Fins ≤ 32 °F** → trigger Freeze Recovery script (heater + fans off for 60 s, then wait until fins > recovery threshold).
+3. **Fins ≤ 32 °F and recovery not already running** → trigger Freeze Recovery script (heater + fans off for 60 s, then wait until fins > `32 + margin` before resuming normal control).
+4. **External cooling available** (`outside ≤ room − 20 °F`) and room above upper threshold → fans on, heater off.
+5. **Deadband active** and room ≥ upper threshold and fans not running → exit deadband, turn heater on.
+6. **Room above target** (no deadband, no freeze recovery, fans not running) → heater on.
+7. **Room at or below lower threshold** → heater off, enter deadband.
 
 ---
 
@@ -117,6 +117,19 @@ Update these in `cooler.yaml` to match your physical sensors:
 | Room | `0x690417a1115aff28` |
 | Fins | `0x990417a10ca3ff28` |
 | Outside | `0x0e0417a116ffff28` |
+
+---
+
+## Version History
+
+| Version | Date | Summary |
+|---|---|---|
+| 1.2.1 | 2025-06-28 | Bug fixes: freeze recovery trigger, fan/heater flag conflict, text sensor, test card |
+| 1.2.0 | 2025-06-18 | Hardware pivot to ESP32-C3-DevKitM-1 + DS18B20; freeze recovery; manual deadband; web server v3 |
+| 1.1.2 | 2025-06-27 | Manual deadband now forces relays off |
+| 1.0.0 | 2025-06-09 | Initial release |
+
+See [CHANGELOG.md](CHANGELOG.md) for full details.
 
 ---
 
