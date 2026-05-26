@@ -30,6 +30,7 @@ Controls temperature in a cold storage room using a heater and external fans. Mo
 | Display | SSD1306 OLED 128×64 (I2C) |
 | Relay Board | 2-Channel GPIO relay (Heater AC + External Fans) |
 | Status LED | Onboard WS2811 NeoPixel (GPIO8) |
+| AC Sensor Bias Resistors | 2× 10Ω 5W Axial Ceramic Cement resistors wired in parallel (5Ω / 5W combined), powered by 5V DC, switched by the Heater (AC) Relay |
 
 ---
 
@@ -60,6 +61,19 @@ The display cycles through 8 pages every 10 seconds:
 | 6 | Outside Temperature |
 | 7 | Hysteresis Range |
 | 8 | Freeze Recovery Margin |
+
+---
+
+## AC Sensor Bias Resistors
+
+The two 10Ω 5W ceramic cement resistors are wired in parallel (5Ω combined) and powered from a 5V DC supply switched by the Heater (AC) Relay. They are wrapped around the AC unit's internal temperature sensor.
+
+**Purpose:** When the heater (AC unit) is running, the resistors generate a small amount of heat (~5W) directly against the AC sensor. This prevents the AC unit's own sensor from reading the cold room air and triggering a false low-temperature shutdown or short-cycle, allowing the AC to run continuously under the ESPHome control logic.
+
+**Electrical characteristics at 5V:**
+- Each resistor: 10Ω, 0.5A, 2.5W
+- Combined (parallel): 5Ω, 1A, 5W
+- Both resistors operate well within their 5W rating
 
 ---
 

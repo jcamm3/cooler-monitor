@@ -13,6 +13,9 @@ All notable changes to this project will be documented in this file.
 - `show_test_card` set to `false` — removes the test pattern flash on every reboot.
 - Corrected stale log message from `"15s interval logic executed"` to `"5s interval logic executed"`.
 
+### Documentation
+- Added AC Sensor Bias Resistors to hardware table and dedicated notes section: 2× 10Ω 5W ceramic cement resistors wired in parallel (5Ω / 5W combined), powered by 5V DC, switched by the Heater (AC) Relay, wrapped around the AC unit's internal temperature sensor to prevent false low-temperature shutdowns.
+
 ---
 
 ## [1.2.0] - 2025-06-18
